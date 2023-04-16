@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from putingoodhands.models import Donation, Institution
+from putingoodhands.models import Donation, Institution, Category
 
 # Create your views here.
 
@@ -8,13 +8,19 @@ class LandingPageView(View):
     
     def get(self, request):
         
-        dontaion = Donation.objects.all()
-        institution = Institution.objects.all()
+        dontaions = Donation.objects.all()
+        institutions = Institution.objects.all()
+        # institutionscategories = Category.objects.all()
+        for i in institutions:
+            print(i.name)
+            print(i.description)
+            print(i.categories)        
         
         return render(request,
                       'index.html',
-                      {'institution': institution,
-                       'dontaion': dontaion})
+                      {'institutions': institutions,
+                       'dontaions': dontaions,
+                       })
         
 class LoginView(View):
     
