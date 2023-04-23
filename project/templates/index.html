@@ -13,12 +13,24 @@
   <body>
     <header class="header--main-page">
       <nav class="container container--70">
-        {%block nav-actions-ul-1%}
+        {% if user.is_authenticated %}
+        <ul class="nav--actions">
+          <li class="logged-user">
+            Witaj {{user}}
+            <ul class="dropdown">
+              <li><a href="#">Profil</a></li>
+              <li><a href="#">Ustawienia</a></li>
+              <li><a href="{% url 'landing-page' %}">Wyloguj</a></li>
+            </ul>
+          </li>
+        </ul>
+        {%else%}
         <ul class="nav--actions">
           <li><a href="{% url 'login' %}#login" class="btn btn--small btn--without-border">Zaloguj</a></li>
           <li><a href="{% url 'register' %}#register" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul> 
-        {%endblock%}
+       
+        {%endif%}
         <ul>
           <li><a href="{% url 'landing-page' %}" class="btn btn--without-border active">Start</a></li>
           <li><a href="{% url 'landing-page' %}#steps" class="btn btn--without-border">O co chodzi?</a></li>
