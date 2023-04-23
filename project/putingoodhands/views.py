@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from putingoodhands.models import Donation, Institution, Category
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -69,7 +70,7 @@ class RegisterView(View):
                       'login.html')
         
 
-class AddDonation(View):
+class AddDonation(LoginRequiredMixin, View):
     
     def get(self, request):
         
