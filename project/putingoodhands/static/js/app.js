@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       // Form submit
-      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+      // this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
     }
 
     /**
@@ -253,3 +253,47 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
+
+// --------------------------
+
+// pobieranie elementów checkboxów z kroku 1 i przygotowanie tablicy na wybrane kategorie
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+let selectedCategories = [];
+
+// tworzenie event listenera na każdym checkboxie
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener('change', (event) => {
+    selectedCategories = []; // reset tablicy z wybranymi kategoriami
+    checkboxes.forEach((item) => {
+      if (item.checked) {
+        selectedCategories.push(item.value); // dodanie wybranej kategorii
+      }
+    });
+    // filtrowanie organizacji na podstawie wybranych kategorii z kroku 1
+    const organizations = document.querySelectorAll('div.form-group.form-group--checkbox');
+    organizations.forEach((org) => {
+      const desc = org.querySelector('.description').children;
+      const categories = Array.from(desc).slice(1).map(x => x.innerText.trim()); // pobieramy kategorie, musimy zamienić HTMLCollection na tablicę, pomijamy pierwszy element (nazwę organizacji)
+      if (selectedCategories.every((cat) => categories.includes(cat))) {
+        org.style.display = "block"; // jeśli organizacja pasuje do wybranych kategorii, pokazuj ją
+      } else {
+        org.style.display = "none"; // jeśli organizacja nie pasuje do wybranych kategorii, ukryj ją
+      }
+    });
+    
+    // Wyświetlanie wybranych kategorii
+    const selectedCategoriesContainer = document.querySelector('.form-group--selected-categories');
+    if (selectedCategoriesContainer) {
+      if (selectedCategories.length) {
+        selectedCategoriesContainer.innerHTML = `<strong>Wybrane kategorie:</strong> ${selectedCategories.join(", ")}`;
+      } else {
+        selectedCategoriesContainer.innerHTML = "";
+      }
+    }
+  });
+});
+
+
+// ================================
+
+

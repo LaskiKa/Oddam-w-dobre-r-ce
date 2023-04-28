@@ -1,15 +1,5 @@
 {% extends "index.html" %}
         {%block nav-actions-ul-1%}
-        <ul class="nav--actions">
-          <li class="logged-user">
-            Witaj Agata
-            <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
-              <li><a href="#">Ustawienia</a></li>
-              <li><a href="{% url 'landing-page' %}">Wyloguj</a></li>
-            </ul>
-          </li>
-        </ul>
         {%endblock%}
 
       {%block h1%}
@@ -65,7 +55,8 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action=""  method="POST">
+          {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -75,8 +66,9 @@
               <label>
                 <input
                   type="checkbox"
+                  nactiveame="categories"
                   name="categories"
-                  value="clothes-to-use"
+                  value="{{category.name}}"
                 />
                 <span class="checkbox"></span>
                 <span class="description"
@@ -122,20 +114,22 @@
           <div data-step="3">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 
+ 
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox">
               <label>
-                <input type="radio" name="organization" value="old" />
+                <input type="radio" name="organization" value="{{institution.id}}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
-                  <div class="subtitle">
-                    {{ institution.description }}
-                  </div>
+                  {% for category in institution.categories.all %}
+                  <div class="subtitle">{{ category.name }}</div>
+                  {% endfor %}
                 </span>
               </label>
             </div>
             {% endfor %}
+            
 
              <div class="form-group form-group--buttons">
               <button type="button" class="btn prev-step">Wstecz</button>
@@ -175,7 +169,7 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="data" /> </label>
+                  <label> Data <input type="date" name="date" /> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
@@ -243,10 +237,12 @@
             </div>
 
             <div class="form-group form-group--buttons">
+              <input type="hidden" name="user" value="{{user.id}}">
               <button type="button" class="btn prev-step">Wstecz</button>
               <button type="submit" class="btn">Potwierdzam</button>
             </div>
           </div>
+          <!-- <button type="submit">Wyślij</button> -->
         </form>
       </div>
     </section>
