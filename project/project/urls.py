@@ -19,7 +19,7 @@ from django.urls import path
 from putingoodhands.views import LandingPageView, LoginView, RegisterView, AddDonation, MyLogoutView, DonationConfirmationView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('', LandingPageView.as_view(), name='landing-page'),
     path('login/', LoginView.as_view(), name='login'),
     path('register/', RegisterView.as_view(), name='register'),
