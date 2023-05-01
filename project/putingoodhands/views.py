@@ -131,3 +131,24 @@ class MyLogoutView(View):
     def get(self, request):
         logout(request)
         return HttpResponse('Wylogowano')
+    
+class UserEditView(View):
+    
+    def get(self, request):
+        return render(request,
+                      'user-edit-form.html')
+        
+    def post(self, request):
+                
+        firstname = request.POST.get("username")
+        lastname = request.POST.get("surname")
+        username = request.POST.get('login')
+        
+        user = User.objects.get(pk=self.request.user.id)
+        user.first_name = firstname
+        user.last_name = lastname
+        user.username = username
+        
+        user.save()
+        
+        return redirect('useredit')
