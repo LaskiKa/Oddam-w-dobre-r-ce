@@ -135,8 +135,12 @@ class MyLogoutView(View):
 class UserEditView(View):
     
     def get(self, request):
+        
+        donations = Donation.objects.filter(user=self.request.user.id)
+        
         return render(request,
-                      'user-edit-form.html')
+                      'user-edit-form.html',
+                      {'donations': donations})
         
     def post(self, request):
                 

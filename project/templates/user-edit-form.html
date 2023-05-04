@@ -5,11 +5,45 @@
       {%block h1%}
       <div class="slogan container container--90">
         <div class="slogan--item">
-          <h1>
-            Profil główny użytkownika<br />
+
+          <h1> Darowizny użytkownika <br />
             <span class="uppercase">{{user}}</span>
-            
           </h1>
+
+          <!-- <h1 class="w-auto"> -->
+          <table class="table table-striped fs-3 w-100">
+            <thead>
+              <tr>
+                <th scope="col">Organizacja</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for donation in donations %}
+
+              <tr>
+                <th scope="row">{{donation.institution}}</th>
+                <td>
+                  {%for category in donation.categories.all%}
+                  {{category.name}}
+                  {% endfor %}
+                </td>
+                <td>{{donation.quantity}}</td>  
+                <td> {{donation.pick_up_date}} </Datag> </td>
+  
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+        <!-- </h1> -->
+
+
+
+          
+          
           
         </div>
       </div>
@@ -59,13 +93,16 @@
 
             <div class="form-group form-group--buttons">
               <input type="hidden" name="user" value="{{user.id}}">
-              <button type="submit" class="btn">Potwierdzam</button>
+              <button type="submit" class="btn btn-primary btn-lg fs-2">Zapisz zmiany</button>
             </div>
           </div>
           <!-- <button type="submit">Wyślij</button> -->
         </form>
       </div>
+
+
     </section>
+
 {%endblock%}
 {%block section-2%}{%endblock%}
 {%block section-about-us%}{%endblock%}
