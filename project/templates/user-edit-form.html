@@ -1,0 +1,112 @@
+{% extends "index.html" %}
+        {%block nav-actions-ul-1%}
+        {%endblock%}
+
+      {%block h1%}
+      <div class="slogan container container--90">
+        <div class="slogan--item">
+
+          <h1> Darowizny użytkownika <br />
+            <span class="uppercase">{{user}}</span>
+          </h1>
+
+          <!-- <h1 class="w-auto"> -->
+          <table class="table table-striped fs-3 w-100">
+            <thead>
+              <tr>
+                <th scope="col">Organizacja</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for donation in donations %}
+
+              <tr>
+                <th scope="row">{{donation.institution}}</th>
+                <td>
+                  {%for category in donation.categories.all%}
+                  {{category.name}}
+                  {% endfor %}
+                </td>
+                <td>{{donation.quantity}}</td>  
+                <td> {{donation.pick_up_date}} </Datag> </td>
+  
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+        <!-- </h1> -->
+
+
+
+          
+          
+          
+        </div>
+      </div>
+      {%endblock%}
+
+    {%block section-1%}
+    <section class="form--steps">
+      <div class="form--steps-instructions">
+        <div class="form--steps-container">
+          <h3>Ważne!</h3>
+          <p data-step="1" class="active">
+            Edytując dane zwracaj uwagę na literówki
+          </p>
+        </div>
+      </div>
+
+      <div class="form--steps-container">
+        <div class="form--steps-counter"></div>
+
+        <form action=""  method="POST">
+          {% csrf_token %}
+          <!-- STEP 1: class .active is switching steps -->
+          <div data-step="1" class="active">
+            <h3>Dane użytkownika:</h3>
+            <h1 style="color: green";> {{result}} </h1> <br />
+            <div class="form-section form-section--columns">
+              <div class="form-section--column">
+                <div class="form-group form-group--inline">
+                  <label> Imię <input type="text" name="username" value="{{user.first_name}}" /> </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label> Nazwisko <input type="text" name="surname" value="{{user.last_name}}"/> </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label> login <input type="text" name="login" value="{{user.username}}"/> </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label> E-mail <input type="text" name="mail" value="{{ user.email }}"/> </label>
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="form-group form-group--buttons">
+              <input type="hidden" name="user" value="{{user.id}}">
+              <button type="submit" class="btn btn-primary btn-lg fs-2">Zapisz zmiany</button>
+            </div>
+          </div>
+          <!-- <button type="submit">Wyślij</button> -->
+        </form>
+      </div>
+
+
+    </section>
+
+{%endblock%}
+{%block section-2%}{%endblock%}
+{%block section-about-us%}{%endblock%}
+{%block section-help%}{%endblock%}
+
+  </body>
+</html>
